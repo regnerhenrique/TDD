@@ -8,11 +8,17 @@ Visual Studio 2019: https://visualstudio.microsoft.com/pt-br/vs/
 
 xUnit: https://xunit.net/
 
+Fluent Validation: https://fluentvalidation.net/
+
 MoQ: https://github.com/moq/moq4
 
 Auto Mocker: https://github.com/moq/Moq.AutoMocker
 
 Bogus: https://github.com/bchavez/Bogus
+
+Fluent Assertions: https://fluentassertions.com/
+
+
 
 User Stories:
 

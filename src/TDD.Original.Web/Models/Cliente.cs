@@ -2,6 +2,7 @@
 using FluentValidation;
 using FluentValidation.Results;
 using System;
+using TDD.Original.Web.Utils;
 
 namespace TDD.Original.Web.Models
 {
@@ -13,7 +14,7 @@ namespace TDD.Original.Web.Models
             CPF = cpf;
             DataNascimento = dataNascimento;
             Endereco = endereco;
-            AcimaTrintaAnos = dataNascimento.Date > DateTime.Now.AddYears(-30).Date;
+            AcimaTrintaAnos = dataNascimento.Date <= DateTime.Now.AddYears(-30).Date;
         }
         public string Nome { get; private set; }
         public string CPF { get; private set; }
@@ -37,15 +38,15 @@ namespace TDD.Original.Web.Models
                 .NotEmpty().WithMessage("O campo nome não deve ser vázio")
                 .Length(2, 150).WithMessage("O nome deve ter entre 2 e 150 caracteres");
 
-            RuleFor(x => x.CPF)
-                .NotEmpty().WithMessage("O campo nome não deve ser vázio")
-                .Length(2, 150).WithMessage("O nome deve ter entre 2 e 150 caracteres");
+            RuleFor(x => x.CPF.RemoverCaracteresEspeciais())
+                .NotEmpty().WithMessage("O campo CPF não deve ser vázio")
+                .Length(11).WithMessage("O CPF deve ter entre 11 digitos");
 
             RuleFor(x => x.DataNascimento)
-                .NotEmpty().WithMessage("O campo nome não deve ser vázio");
+                .NotEmpty().WithMessage("O campo data de nascimento nao pode estar vazio");
 
             RuleFor(x => x.Endereco)
-                .NotEmpty().WithMessage("O campo nome não deve ser vázio")
+                .NotEmpty().WithMessage("O campo endereco não deve ser vázio")
                 .Length(2, 150).WithMessage("O nome deve ter entre 2 e 150 caracteres");
         }
     }

@@ -25,10 +25,11 @@ namespace TDD.Original.Tests.CadastroCliente.Fixtures
         }
         public Cliente GerarClienteValido()
         {
-            return GerarClientes(1).FirstOrDefault();
+            GerarClientes(1);
+            return Clientes.FirstOrDefault();
         }
 
-        public List<Cliente> GerarClientes(int quantidade)
+        public void GerarClientes(int quantidade)
         {
             var clienteFaker = new Faker<Cliente>("pt_BR")
                 .CustomInstantiator(x => new Cliente(
@@ -38,9 +39,9 @@ namespace TDD.Original.Tests.CadastroCliente.Fixtures
                     x.Address.FullAddress()
                     ));
 
-            return clienteFaker.Generate(quantidade);
+            Clientes = clienteFaker.Generate(quantidade);
         }
-        
+
         public ClienteService ObterClienteService()
         {
             Mocker = new AutoMocker();

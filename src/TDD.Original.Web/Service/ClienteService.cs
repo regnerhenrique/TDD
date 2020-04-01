@@ -24,9 +24,9 @@ namespace TDD.Original.Web.Service
             return false;
         }
 
-        public IEnumerable<Cliente> ObterMaioresTrintaAnos(IEnumerable<Cliente> clientes)
+        public IEnumerable<Cliente> ObterMaioresTrintaAnos()
         {
-            return clientes.Where(x => x.AcimaTrintaAnos);
+            return _clienteRepository.ObterTodos().Where(x => x.AcimaTrintaAnos);
         }
     }
 }

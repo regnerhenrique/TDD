@@ -2,6 +2,7 @@
 using Moq;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using TDD.Original.Tests.CadastroCliente.Fixtures;
 using TDD.Original.Web.Models;
 using TDD.Original.Web.Repository;
@@ -11,7 +12,7 @@ using Xunit;
 namespace TDD.Original.Tests.CadastroCliente
 {
     [Collection(nameof(ClienteCollection))]
-    public class CadastroClienteTests : IDisposable
+    public class ClienteServiceTests : IDisposable
     {
         private readonly ClienteFixture _clienteFixture;
         private readonly ClienteService _clienteService;
@@ -20,7 +21,7 @@ namespace TDD.Original.Tests.CadastroCliente
         private readonly Cliente _clienteInvalido;
         private readonly IEnumerable<Cliente> _clientesValidos;
 
-        public CadastroClienteTests(ClienteFixture clienteFixture)
+        public ClienteServiceTests(ClienteFixture clienteFixture)
         {
             _clienteFixture = clienteFixture;
             _clienteValido = _clienteFixture.GerarClienteValido();
@@ -30,8 +31,8 @@ namespace TDD.Original.Tests.CadastroCliente
         }        
 
         [Fact(DisplayName = "Cadastrado com sucesso")]
-        [Trait("Categoria", "Cadastro de Clientes")]
-        public void CadastroCliente_AdicionarCliente_ComSucesso()
+        [Trait("Categoria", "Cliente Service")]
+        public void ClienteService_AdicionarCliente_ComSucesso()
         {
             // Arrange
             _clienteRepository.Setup(x => x.Adicionar(_clienteValido)).Returns(true);
@@ -42,8 +43,8 @@ namespace TDD.Original.Tests.CadastroCliente
         }
 
         [Fact(DisplayName = "Cadastrado sem sucesso")]
-        [Trait("Categoria", "Cadastro de Clientes")]
-        public void CadastroCliente_AdicionarCliente_SemSucesso()
+        [Trait("Categoria", "Cliente Service")]
+        public void ClienteService_AdicionarCliente_SemSucesso()
         {
             // Act && Assert
             Assert.False(_clienteService.Adicionar(_clienteInvalido));
@@ -51,12 +52,28 @@ namespace TDD.Original.Tests.CadastroCliente
         }
 
         [Fact(DisplayName = "Obter maiores de 30 anos")]
-        [Trait("Categoria", "Cadastro de Clientes")]
-        public void CadastroCliente_ionarCliente_SemSucesso()
+        [Trait("Categoria", "Cliente Service")]
+        public void ClienteService_ObterMaioresTrintaAnos_RetornarListaMaioresTrintaAnos()
         {
-            // Act && Assert
-            Assert.False(_clienteService.Adicionar(_clienteInvalido));
-            _clienteRepository.Verify(x => x.Adicionar(_clienteInvalido), Times.Never);
+            // Arrange
+            _clienteFixture.GerarClientes(10);
+            _clienteRepository.Setup(x => x.ObterTodos()).Returns(_clienteFixture.Clientes);
+
+            // Act
+            var maioresTrintaAnos = _clienteService.ObterMaioresTrintaAnos();
+
+            // Assert
+            maioresTrintaAnos.Count()
+                             .Should()
+                             .Be(_clienteFixture.Clientes.Where(x => x.AcimaTrintaAnos)
+                                                         .Count());
+
+            maioresTrintaAnos.Count()
+                             .Should()
+                             .Be(_clienteFixture.Clientes.Where(x => x.DataNascimento.Date <= DateTime.Now.AddYears(-30).Date)
+                                                         .Count());
+
+            _clienteFixture.Mocker.GetMock<IClienteRepository>().Verify(x => x.ObterTodos(), Times.Once);
         }
 
         public void Dispose()

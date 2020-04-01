@@ -2,7 +2,7 @@ Código que servirá de auxilio para a talk da Valtech_ sobre testes.
 
 Links dos frameworks e ferramentas utilizadas para a criação:
 
-Visual Studio 2019: https://visualstudio.microsoft.com/pt-br/vs/
+Visual Studio 2019: https://visualstudio.microsoft.com/vs/
 
 .Net Core 3.1: https://dotnet.microsoft.com/download/dotnet-core/3.1
 

@@ -11,9 +11,9 @@ using Xunit;
 namespace TDD.Original.Tests.CadastroCliente.Fixtures
 {
     [CollectionDefinition(nameof(ClienteCollection))]
-    public class ClienteCollection : ICollectionFixture<CadastroClienteFixture>
+    public class ClienteCollection : ICollectionFixture<ClienteFixture>
     { }
-    public class CadastroClienteFixture
+    public class ClienteFixture
     {
         public List<Cliente> Clientes { get; set; }
         public ClienteService ClienteService;

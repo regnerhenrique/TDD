@@ -1,4 +1,6 @@
-﻿using TDD.Original.Web.Models;
+﻿using System.Collections.Generic;
+using System.Linq;
+using TDD.Original.Web.Models;
 using TDD.Original.Web.Repository;
 
 namespace TDD.Original.Web.Service
@@ -20,6 +22,11 @@ namespace TDD.Original.Web.Service
             }
 
             return false;
+        }
+
+        public IEnumerable<Cliente> ObterMaioresTrintaAnos(IEnumerable<Cliente> clientes)
+        {
+            return clientes.Where(x => x.AcimaTrintaAnos);
         }
     }
 }

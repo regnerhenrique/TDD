@@ -13,11 +13,13 @@ namespace TDD.Original.Web.Models
             CPF = cpf;
             DataNascimento = dataNascimento;
             Endereco = endereco;
+            AcimaTrintaAnos = dataNascimento.Date > DateTime.Now.AddYears(-30).Date;
         }
-        public string Nome { get; set; }
-        public string CPF { get; set; }
-        public DateTime DataNascimento { get; set; }
-        public string Endereco { get; set; }
+        public string Nome { get; private set; }
+        public string CPF { get; private set; }
+        public DateTime DataNascimento { get; private set; }
+        public string Endereco { get; private set; }
+        public bool AcimaTrintaAnos { get; private set; }
         public ValidationResult ValidationResult { get; protected set; }
 
         public bool EhValida()

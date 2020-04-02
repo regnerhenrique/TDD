@@ -1,7 +1,6 @@
 ﻿using FluentAssertions;
 using Moq;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using TDD.Original.Tests.CadastroCliente.Fixtures;
 using TDD.Original.Web.Models;
@@ -19,7 +18,6 @@ namespace TDD.Original.Tests.CadastroCliente
         private readonly Mock<IClienteRepository> _clienteRepository;
         private readonly Cliente _clienteValido;
         private readonly Cliente _clienteInvalido;
-        private readonly IEnumerable<Cliente> _clientesValidos;
 
         public ClienteServiceTests(ClienteFixture clienteFixture)
         {
@@ -32,7 +30,7 @@ namespace TDD.Original.Tests.CadastroCliente
 
         [Fact(DisplayName = "Cadastrado com sucesso")]
         [Trait("Categoria", "Cliente Service")]
-        public void ClienteService_AdicionarCliente_ComSucesso()
+        public void Adicionar_ClienteValido_RetornaVerdadeiro()
         {
             // Arrange
             _clienteRepository.Setup(x => x.Adicionar(_clienteValido)).Returns(true);
@@ -44,16 +42,17 @@ namespace TDD.Original.Tests.CadastroCliente
 
         [Fact(DisplayName = "Cadastrado sem sucesso")]
         [Trait("Categoria", "Cliente Service")]
-        public void ClienteService_AdicionarCliente_SemSucesso()
+        public void Adicionar_ClienteInvalido_RetornaFalsoEErros()
         {
             // Act && Assert
-            Assert.False(_clienteService.Adicionar(_clienteInvalido));
+            _clienteService.Adicionar(_clienteInvalido).Should().BeFalse();
             _clienteRepository.Verify(x => x.Adicionar(_clienteInvalido), Times.Never);
+            _clienteInvalido.Validacao.Errors.Should().NotBeNullOrEmpty();
         }
 
         [Fact(DisplayName = "Obter maiores de 30 anos")]
         [Trait("Categoria", "Cliente Service")]
-        public void ClienteService_ObterMaioresTrintaAnos_RetornarListaMaioresTrintaAnos()
+        public void ObterMaioresTrintaAnos_RetornarListaMaioresTrintaAnos()
         {
             // Arrange
             _clienteFixture.GerarClientes(10);

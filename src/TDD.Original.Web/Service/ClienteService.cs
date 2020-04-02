@@ -16,7 +16,7 @@ namespace TDD.Original.Web.Service
 
         public bool Adicionar(Cliente cliente)
         {
-            if (cliente.EhValida())
+            if (cliente.Validacao.IsValid)
             {
                 return _clienteRepository.Adicionar(cliente);
             }

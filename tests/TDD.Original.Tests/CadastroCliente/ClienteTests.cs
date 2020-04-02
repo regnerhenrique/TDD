@@ -20,21 +20,21 @@ namespace TDD.Original.Tests.CadastroCliente
             _clienteInvalido = _clienteFixture.GerarClienteInvalido();
         }
 
-        [Fact(DisplayName = "Cliente válido")]
+        [Fact(DisplayName = "Instanciar Cliente Válido")]
         [Trait("Categoria", "Cliente")]
-        public void CadastroCliente_AdicionarCliente_EhValida()
+        public void InstanciarCliente_ValoresObrigatoriosPreenchidosCorretamente_RetornaTrueEhValida()
         {
             // Act && Assert
-            Assert.True(_clienteValido.EhValida());
+            Assert.True(_clienteValido.Validacao.IsValid);
         }
 
-        [Fact(DisplayName = "Cliente não é válido")]
+        [Fact(DisplayName = "Instanciar Cliente Inválido")]
         [Trait("Categoria", "Cliente")]
-        public void CadastroCliente_AdicionarCliente_NaoValida()
+        public void InstanciarCliente_Invalida()
         {
             // Act && Assert
-            Assert.False(_clienteInvalido.EhValida());
-            Assert.True(_clienteInvalido.ValidationResult.Errors.Any());
+            Assert.False(_clienteValido.Validacao.IsValid);
+            Assert.True(_clienteInvalido.Validacao.Errors.Any());
         }
 
         public void Dispose()

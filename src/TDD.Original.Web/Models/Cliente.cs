@@ -15,18 +15,19 @@ namespace TDD.Original.Web.Models
             DataNascimento = dataNascimento;
             Endereco = endereco;
             AcimaTrintaAnos = dataNascimento.Date <= DateTime.Now.AddYears(-30).Date;
+            ValidarAtributos();
         }
         public string Nome { get; private set; }
         public string CPF { get; private set; }
         public DateTime DataNascimento { get; private set; }
         public string Endereco { get; private set; }
         public bool AcimaTrintaAnos { get; private set; }
-        public ValidationResult ValidationResult { get; protected set; }
+        public ValidationResult Validacao { get; protected set; }
 
-        public bool EhValida()
+        public bool ValidarAtributos()
         {
-            ValidationResult = new ClienteValidacao().Validate(this);
-            return ValidationResult.IsValid;
+            Validacao = new ClienteValidacao().Validate(this);
+            return Validacao.IsValid;
         }
     }
     
